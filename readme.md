@@ -390,7 +390,10 @@ In order to run the simulator, you need an input file.
 First build the tools:
 
     make reference_tools
-    
+
+You may need to `sudo apt install libjpeg-dev` in order to get the
+JPEG compression libraries and headers.
+
 Then generate a graph:
 
     bin/tools/generate_heat_rect 5
