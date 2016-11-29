@@ -430,6 +430,21 @@ wanted 1024 application level time points, it has taken
 over 17000 hardware steps to achieve it, due to network
 delays on some edges.
 
+If you want to look at the output, then tools that can I believe
+can play mjpeg are:
+
+- ffplay or avplay from ffmpeg/avlib. Cross-platform.
+
+- [Media Player Classic](https://mpc-hc.org/), Windows.
+
+*Note: looking at the mjpeg output can be useful to determine what the
+calculation is doing, and for large-scale breakages. However, if you're checking
+correctness you want to automate it and not rely on human eyes. One
+approach is to ensure the outputs are diffable (binary exact). Another
+approach is to find an image diff program. Another approach is to notice
+that the jpeg_helper contains a [decompressor](https://github.com/HPCE/hpce-2016-cw6/blob/master/include/jpeg_helpers.hpp#L62)
+as well as a compressor.*
+
 In terms of performance, the metric of performance for
 this scenario is simply the execution time of the simulator:
 
