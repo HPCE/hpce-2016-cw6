@@ -5,6 +5,7 @@
 #if !defined(NOMINMAX)
 #define NOMINMAX
 #endif
+#include "windows.h"
 #endif
 
 #include <time.h>
@@ -95,6 +96,7 @@ namespace puzzler
   typedef uint64_t timestamp_t;
 
 #if !defined(__CYGWIN__) && defined(_WIN32) || defined(_WIN64)
+
   inline timestamp_t now()
   {
     FILETIME ft;
