@@ -3,7 +3,7 @@ HPCE 2016 CW6
 
 This coursework is due on:
 
-    Fri Dec 10th, 22:00
+    Fri Dec 9th, 22:00
     
 Submission is via github, and as before the
 two people in pairs should connect together
