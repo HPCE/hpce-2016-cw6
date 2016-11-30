@@ -4,7 +4,7 @@ HPCE 2016 CW6
 This coursework is due on:
 
     Fri Dec 9th, 22:00
-    
+
 Submission is via github, and as before the
 two people in pairs should connect together
 their repositories via write permisions.
@@ -28,8 +28,8 @@ task, I'm looking for two things:
   for accelerating the simulator of POETS applications.
   You have limited time to actually implement ideas, so
   this is a chance to explain what you would do if you
-  were me.      
-  
+  were me.
+
 Context and Background
 ======================
 
@@ -66,7 +66,7 @@ of components in a computer system:
   grid seen in CW3) this is relatively easy, but most
   problems require less regular or completely
   unstructured meshes.
-  
+
 - Applications: Any application that will be run on POETS
   has to be completely rewritten or re-thought in order
   to decompose it into devices and messages. As there are
@@ -94,7 +94,7 @@ simulators:
   hardware will be supporting ~1e10 messages/sec. Closing
   the performance gap gives more confidence that the
   applications being developed will actually scale well.
-  
+
 - Hardware fidelity: the fastest way of simulating POETS
   is to completely ignore the network, and deliver messages
   as soon as they are generated, but in the real world
@@ -104,7 +104,7 @@ simulators:
   Simulating some amount of network delay gives more
   confidence, but also makes the simulation process much
   slower.
-  
+
 More detailed specifiations
 ===========================
 
@@ -118,18 +118,18 @@ So things you need to deliver are:
 
 - A (correct) simulator which supports the "heat" application. This
   should be compilable by calling:
-  
+
       make user_simulator
-      
+
   in the submission root directory.
-  
+
     - The resulting output executable should be called `bin/user/simulator`,
-      and should support the same parameters, inputs, and outputs as `bin/ref/simulator`. 
+      and should support the same parameters, inputs, and outputs as `bin/ref/simulator`.
 
     - One thing the simulator produces is a stream of statistics, explaining
       what the devices and edges were doing in each hardware "time step". This
       should match the output of the reference simulator.
-      
+
     - The simulator should also produce a stream which is the "output" of
       the application. So this is the answer we would be interested in if
       we ran it on the real hardware. This is motion-JPEG compressed,
@@ -145,7 +145,7 @@ So things you need to deliver are:
 
     - An explanation of how your current code and approach works, which allows
       an interested reader to then look at and be able to follow the code.
-      
+
     - A discussion of general strategies and parallelisation methods
       that can be applied, including their strengths and weaknesses.
       I'm particularly interested in strategies for GPU-based acceleration,
@@ -160,7 +160,7 @@ So things you need to deliver are:
   polished, but it should try to clearly explain your ideas and
   reasoning. I would imagine around two pages per section is
   enough. Figures are useful, but they don't need to be highly
-  detailed. Hand-drawn figures are completely fine as long as they 
+  detailed. Hand-drawn figures are completely fine as long as they
   are understandable (and don't result in 50MB pdfs...)
 
 The default target platform is g2.2xlarge. If you want to target
@@ -207,7 +207,7 @@ so each point does that by running the following process:
 
 3 - Calculating its next heat based on the current heat of itself,
     and broadcast to its neighbours.
-    
+
 4 - Go back to step 2.
 
 Some of the cells are [dirichlet](https://en.wikipedia.org/wiki/Dirichlet_boundary_condition))
@@ -239,7 +239,7 @@ channel configurations:
 
 - "hex" : the devices are connected into a 2D honeycomb
   lattice, so interior cells have 6 neighbours.
-  
+
 - "mesh" : the connectivity of each cell can be different,
   with no particular structure.
 
@@ -253,7 +253,7 @@ Each device steps through every time point during the
 solution, which means the "full" solution consists of
 the value of every device at every time point. However,
 if we have 1M devices, and run it for 1M time-steps
-(on the lower end of things), this generates approximately 
+(on the lower end of things), this generates approximately
 4TB of data. While there is a huge amount of bandwidth
 between devices, getting the data out is a much
 bigger problem, so the actual output result must be
@@ -282,15 +282,15 @@ So the job of the supervisor is:
 1. For each output message (h,t):
 
    a. If this is the first output for slice t, allocate a new buffer
-   
+
    b. Insert the heat h into the correct position in the buffer based on the source device
 
 2. If the earliest time-slice is complete (all values received) then:
 
    a. Spatially interpolate the mising values in the heat solution
-   
+
    b. Encode the resulting heat-map as JPEG and write to file
-   
+
    c. Discard the time-slice
 
 The result of running the devices and supervisor together is
@@ -308,17 +308,17 @@ target hardware, including:
 - Functional simulators: these try to run the application
   logic as fast as possible, in order to test the high-level
   properties, i.e. does it calculate the right answer?
-  
+
 - Behavioral simulators: as well as running the application
   logic, these try to capture some elements of how the
   underlying functional units of the hardware work in order
   to give insight into how fast it is likely to run.
-  
+
 - Cycle-accurate simulators: every element of the hardware
   is captured at the cycle-level, including all bus-level
   transactions. This is incredibly slow, but ensures that
   all low-level performance effects are captured.
-  
+
 The tradeoff between simulation speed and simulation fidelity
 is very common - consider a functional versus timing-driven
 simulation of digital circuits. I'm going to get you to
@@ -333,20 +333,20 @@ The specific assumptions I'll use are:
 
 - The simulated hardware proceeds in "steps", where
   each step represents on discrete unit of hardware time.
-  
+
 - At each step, every node gets a chance to send a
   message, and place the message in all outgoing network
   edges.
-  
+
 - At each step, every edge gets a chance to deliver
   a message to its target node.
-  
+
 - Each network edge can contain at most one message.
 
 - Each network edge has a delay, which captures the
   length of time it takes the message to transit the
   edge.
-  
+
 - A node can only send a message if all outgoing
   edges are empty.
 
@@ -363,24 +363,41 @@ following states:
 - blocked : the device wanted to send a message at the
   application level, but there was no network capacity
   at the hardware level.
-  
+
 - sent : the application generated a message
 
 Similarly the edges can be in a number of states:
 
 - idle : no messages arrived or were sent
 
-- transit : there is a message in the edge, but it is 
+- transit : there is a message in the edge, but it is
   still in flight
-  
+
 - delivered : a message exited the edge and was
   received by the application-level device.
-  
-During each time step the simulator produces a summary
-of how many nodes and devices were in each state.
-The idea is that this can be used to find patterns
-and problems in the hardware utilisation.
 
+During each time step the simulator produces a summary
+of statistics, counting how many nodes and devices were
+in each state. The idea is that this can be used to find
+patterns and problems in the hardware utilisation.
+
+_*Note*: While simplifying the network model to turn this
+into the coursework, I took out a source of randomness applied
+to the delay on a per-packet basis (simulating hardware uncertainty).
+At the time I thought that the network delays still resulted in
+unpredictable statistics, but I was only looking at big graphs.
+For smaller graphs there is clear periodicity after a while,
+related to the largest network delay and/or the LCM of the
+delays._
+
+_Detecting and exploiting periodicity is not a useful solution
+in this scenario, as it is only an artefact of the simplification.
+It is tempting to add back in the randomness, but that would
+cause a breaking-change, and people are already working on
+their code and have generated reference outputs. So far I haven't
+seen anyone trying to exploit the periodicity, so I'm simply going
+to state: *detecting statistical periodicity is not a valid
+solution, and should not be applied*._
 
 Running the simulator
 =====================
@@ -403,11 +420,11 @@ Save the output to a file:
 
     mkdir -p w
     bin/tools/generate_heat_rect 5 > w/heat5.graph
-    
+
 Then you can simulate it:
 
     bin/ref/simulator w/heat5.graph - w/heat5.mjpeg
-    
+
 This will produce:
 
 - Statistics printed to stdout (the hardware utilisation)
@@ -422,8 +439,8 @@ and turn the logging off:
 
     mkdir -p w
     bin/tools/generate_heat_rect 63 1024 4 8  > w/heat63.graph
-    bin/ref/simulator --log-level 0 w/heat63.graph - w/heat63.mjpeg    
-    
+    bin/ref/simulator --log-level 0 w/heat63.graph - w/heat63.mjpeg
+
 It will run for a while, and then finish, with a longer
 heat trace and more statistics. Even though we only
 wanted 1024 application level time points, it has taken
@@ -448,7 +465,7 @@ as well as a compressor.*
 In terms of performance, the metric of performance for
 this scenario is simply the execution time of the simulator:
 
-    time bin/ref/simulator --log-level 0 w/heat63.graph w/heat63.stats w/heat63.mjpeg    
+    time bin/ref/simulator --log-level 0 w/heat63.graph w/heat63.stats w/heat63.mjpeg
 
 The goal is to minimise the "heat" simulation time for:
 
