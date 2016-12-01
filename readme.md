@@ -5,9 +5,9 @@ This coursework is due on:
 
     Fri Dec 9th, 22:00
 
-Submission is via github, and as before the
+Submission is via GitHub, and as before the
 two people in pairs should connect together
-their repositories via write permisions.
+their repositories via write permissions.
 
 Overall Goals
 =============
@@ -62,7 +62,7 @@ of components in a computer system:
   not think in terms of graphs, so a custom OS is needed
   which understands the topology of the hardware, and
   can then map a given application topology onto the
-  hardware. For a regular 2D toplology (e.g. the cartesian
+  hardware. For a regular 2D topology (e.g. the cartesian
   grid seen in CW3) this is relatively easy, but most
   problems require less regular or completely
   unstructured meshes.
@@ -105,7 +105,7 @@ simulators:
   confidence, but also makes the simulation process much
   slower.
 
-More detailed specifiations
+More detailed specifications
 ===========================
 
 What I want from you is something that allows us to explore
@@ -210,7 +210,7 @@ so each point does that by running the following process:
 
 4 - Go back to step 2.
 
-Some of the cells are [dirichlet](https://en.wikipedia.org/wiki/Dirichlet_boundary_condition))
+Some of the cells are [Dirichlet](https://en.wikipedia.org/wiki/Dirichlet_boundary_condition)
 boundary conditions, and calculate their current heat using a fixed
 function of time. To keep things simple, the boundary condition function
 is really simple, though it is still non-linear (which makes it
@@ -287,7 +287,7 @@ So the job of the supervisor is:
 
 2. If the earliest time-slice is complete (all values received) then:
 
-   a. Spatially interpolate the mising values in the heat solution
+   a. Spatially interpolate the missing values in the heat solution
 
    b. Encode the resulting heat-map as JPEG and write to file
 
@@ -332,7 +332,7 @@ The specific assumptions I'll use are:
 - Each channel is mapped to one network edge.
 
 - The simulated hardware proceeds in "steps", where
-  each step represents on discrete unit of hardware time.
+  each step represents one discrete unit of hardware time.
 
 - At each step, every node gets a chance to send a
   message, and place the message in all outgoing network
@@ -486,13 +486,13 @@ asking you to look at "heat".
 Managing expectations
 =====================
 
-This is not an artifically constructed task where I know exactly
+This is not an artificially constructed task where I know exactly
 how to "solve" it. It is a simplified port of an existing simulator
 I wrote, with some features taken out. It is also quite
 a complicated piece of code, so there is a possibility that
 we'll encounter bugs which I'll need to patch. It may also
 be slightly under-specified, as it wasn't constructed solely
-with assesment in mind - if refinements are needed, let me know.
+with assessment in mind - if refinements are needed, let me know.
 
 I obviously have a lot of ideas about good
 ways of doing it, and already have a very fast multi-core
