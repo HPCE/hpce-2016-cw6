@@ -447,7 +447,7 @@ wanted 1024 application level time points, it has taken
 over 17000 hardware steps to achieve it, due to network
 delays on some edges.
 
-If you want to look at the output, then tools that can I believe
+If you want to look at the output, then tools that I believe
 can play mjpeg are:
 
 - ffplay or avplay from ffmpeg/avlib. Cross-platform.
