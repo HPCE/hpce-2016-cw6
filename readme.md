@@ -9,6 +9,34 @@ Submission is via github, and as before the
 two people in pairs should connect together
 their repositories via write permisions.
 
+Auto-runs
+=========
+
+The schedule I'm planning for auto-runs is:
+
+- Fri 2nd, 15:00
+
+- Mon 5th, 18:00
+
+- Tue 6th, 18:00
+
+- Wed 7th, 18:00
+
+- Thu 8th, 18:00
+
+This is mainly dictated by when I have time to nurse the instances.
+
+I _may_ also run them at other times (probably Thu 1st, as I'm debugging
+the flow with real submissions).
+
+Note that these are the times when I will pull - the actual
+results will take a while to churn through, particularly
+as there are two instance types to spin up. My estimated
+lag is four hours, but that isn't guaranteed.
+
+Also, the same "dt10_runs/count_me_in" thing applies if you
+want to see comparative results.
+
 Overall Goals
 =============
 
