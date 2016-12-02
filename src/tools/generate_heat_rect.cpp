@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
             outputDeltaTime=atoi(argv[3]);
         }
         if(argc>4){
-            outputDeltaSpace=atoi(argv[3]);
+            outputDeltaSpace=atoi(argv[4]);
         }
         
         w= std::max(1u, (w/outputDeltaSpace))*outputDeltaSpace+1;
