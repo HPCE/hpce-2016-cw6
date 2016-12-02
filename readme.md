@@ -462,7 +462,8 @@ This will produce:
 - Logging information printed to stderr
 
 Let's generate higher resolution 63x63 mesh, run it for
-1024 heat updates, and sub-sample by 4 spatially and 8 temporally,
+1024 heat updates, and sub-sample by 4 temporally and 8 spatially
+(originally I labelled these wrong, see issue #14)
 and turn the logging off:
 
     mkdir -p w
